@@ -84,6 +84,9 @@ public void setStudents(List<Student> Students) {
 // Methods to manage students
 // adding and removing students from the course
 
+public boolean isStudentEnrolled(Student student) {
+    return Students.contains(student);
+}
 public void enrollStudent(Student student) {
     Students.add(student);
     student.addEnrolledCourse(this);

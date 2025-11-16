@@ -65,6 +65,7 @@ public class JsonDatabaseManager {
 
     }
 
+
     public void addStudent(Student student) {
         List<Student> students = getAllStudents();
         List<Instructor> instructors = getAllInstructors();
@@ -224,5 +225,5 @@ public class JsonDatabaseManager {
         }
         return empFile;
     }
-
+    
 }

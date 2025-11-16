@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class BrowseFrame extends javax.swing.JFrame {
 
-    Student Student = (Student) getCurrentUser();
+    Student Student = (Student) Manager.getCurrentUser();
     List<Course> availableCourses = new JsonDatabaseManager().getAllCourses();
 
     public BrowseFrame() {

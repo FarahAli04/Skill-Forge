@@ -57,6 +57,10 @@ public class Manager {
     public static void logout() {
         loggedInUser = null;
     }
-
     
+    
+    public static User getCurrentUser() {
+        return loggedInUser;
+    }
+
 }

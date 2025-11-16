@@ -56,11 +56,10 @@ public class StudentDashboardFrame extends javax.swing.JFrame {
         CompleteBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel1.setText("jLabel1");
-
-        jLabel2.setText("jLabel2");
-
+        if(Student!=null){
+        jLabel1.setText("Welcome, " + Student.getUsername());
+        jLabel2.setText("ID: " + Student.getUserId());
+        }
         EnrolledCoursesList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }

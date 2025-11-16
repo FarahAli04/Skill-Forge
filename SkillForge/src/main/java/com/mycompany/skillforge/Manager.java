@@ -1,7 +1,7 @@
 package com.mycompany.skillforge;
 
 import java.util.ArrayList;
-import java.util.UUID;
+import java.util.Random;
         
 public class Manager {
     private static ArrayList<User> users = new ArrayList<>();
@@ -23,7 +23,8 @@ public class Manager {
                 return "Email already exists!";
         }
 
-        String userId = UUID.randomUUID().toString();
+        Random rand = new Random();
+        String userId = String.valueOf(1000 + rand.nextInt(9000));
         String hashed = Password.hashPassword(password);
 
         User newUser;
@@ -56,4 +57,6 @@ public class Manager {
     public static void logout() {
         loggedInUser = null;
     }
+
+    
 }

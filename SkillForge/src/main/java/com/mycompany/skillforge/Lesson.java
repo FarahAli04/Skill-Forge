@@ -7,11 +7,11 @@ import org.json.JSONObject;
 
 public class Lesson {
 
+    private String courseId;
     private String lessonId;
     private String title;
     private String content;
     private List<String> OpResources;
-    private String courseId;
 
     public Lesson() {
         this.OpResources = new ArrayList<>();
@@ -69,6 +69,7 @@ public class Lesson {
 
     public JSONObject toJsonObject() {
         JSONObject jsonObject = new JSONObject();
+        jsonObject.put("courseId", this.courseId);
         jsonObject.put("lessonId", this.lessonId);
         jsonObject.put("title", this.title);
         jsonObject.put("content", this.content);
@@ -78,6 +79,7 @@ public class Lesson {
 
     public static Lesson fromJsonObject(JSONObject jsonObject) {
         Lesson lesson = new Lesson();
+        lesson.setCourseId(jsonObject.getString("courseId"));
         lesson.setLessonId(jsonObject.getString("lessonId"));
         lesson.setTitle(jsonObject.getString("title"));
         lesson.setContent(jsonObject.getString("content"));

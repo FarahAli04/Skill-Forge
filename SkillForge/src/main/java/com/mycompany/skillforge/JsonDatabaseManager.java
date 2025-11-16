@@ -65,6 +65,23 @@ public class JsonDatabaseManager {
 
     }
 
+    public boolean userExists(String email) {
+        List<Student> students = getAllStudents();
+        List<Instructor> instructors = getAllInstructors();
+        for (Student s : students) {
+            if (s.getEmail().equalsIgnoreCase(email)) {
+                return true;
+            }
+        }
+        for (Instructor i : instructors) {
+            if (i.getEmail().equalsIgnoreCase(email)) {
+                return true;
+            }
+        }
+        return false;
+       
+    }
+
     public void addStudent(Student student) {
         List<Student> students = getAllStudents();
         List<Instructor> instructors = getAllInstructors();
@@ -163,8 +180,8 @@ public class JsonDatabaseManager {
         courses.removeIf(c -> c.getCourseId().equals(courseId));
         List<Student> students = getAllStudents();
         for (Student student : students) {
-            List<Course> enrolledCourses = student.getEnrolledCourses();
-            enrolledCourses.removeIf(c -> c.getCourseId().equals(courseId));
+            List<String> enrolledCourses = student.getEnrolledCourses();
+            enrolledCourses.removeIf(cId -> cId.equals(courseId));
         }
         List<Instructor> instructors = getAllInstructors();
         for (Instructor instructor : instructors) {
@@ -224,5 +241,5 @@ public class JsonDatabaseManager {
         }
         return empFile;
     }
-
+    
 }

@@ -74,6 +74,9 @@ public List<Student> getStudents() {
 public void setStudents(List<Student> Students) {
     this.Students = Students;
 } 
+public boolean isStudentEnrolled(Student student) {
+    return Students.contains(student);
+}
 // Methods to manage students
 // adding and removing students from the course
 

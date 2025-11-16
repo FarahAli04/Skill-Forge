@@ -4,17 +4,28 @@
  */
 package com.mycompany.skillforge;
 
+import java.util.List;
+
+import javax.swing.AbstractButton;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Farah
  */
 public class BrowseFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form BrowseFrame
-     */
+     Student Student = new Student();
+    Database DB = new Database();
+    List<Course> availableCourses = DB.getAllCourses();
+    
+
     public BrowseFrame() {
         initComponents();
+        jTable1.setVisible(false);
+        EnrollBtn.setVisible(false);
     }
 
     /**
@@ -26,25 +37,153 @@ public class BrowseFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        SearchBar = new javax.swing.JTextField();
+        SearchBtn = new javax.swing.JButton();
+        EnrollBtn = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel1.setText("Available Courses");
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Name", "Description", "Instructor", "Number Of  Lessons"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.setColumnSelectionAllowed(true);
+        jTable1.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(jTable1);
+        jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
+        SearchBar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SearchBarActionPerformed(evt);
+            }
+        });
+
+        SearchBtn.setText("Search");
+
+        EnrollBtn.setText("Enroll");
+        EnrollBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EnrollBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(204, 204, 204)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(143, 143, 143))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(SearchBar, javax.swing.GroupLayout.PREFERRED_SIZE, 487, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 487, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(EnrollBtn, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(SearchBtn, javax.swing.GroupLayout.Alignment.LEADING))
+                .addContainerGap(105, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(SearchBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(SearchBtn))
+                .addGap(3, 3, 3)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(EnrollBtn))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
+    private void SearchBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchBarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SearchBarActionPerformed
+
+    private void EnrollBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnrollBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_EnrollBtnActionPerformed
+
+       private void loadAvaiablecoursesToTable(String searchText) {
+        DefaultTableModel model = (DefaultTableModel)  jTable1.getModel();
+        model.setRowCount(0);
+        boolean flag = false;
+        if ( availableCourses.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Students File is Empty", "ERROR", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        for (Course course : availableCourses ) {
+              String stuStr = student.lineRepresentation();
+            String[] splitstuStr =  stuStr.split(",");
+            if ( splitstuStr[0].toLowerCase().contains(searchText.toLowerCase()) ||  splitstuStr[1].toLowerCase().contains(searchText.toLowerCase()) ) {
+                flag = true;
+                int studentId = student.getStudent_ID();
+                String fullName = student.getFull_Name();
+                int age = student.getAge();
+                String gender = student.getGender();
+                String department = student.getDepartment();
+                float gpa = student.getGPA();
+                model.addRow(new Object[]{studentId, fullName, age, gender, department, gpa});
+            }
+        }
+        if (flag) {
+            jScrollPane1.setVisible(true);
+            jScrollPane1.revalidate();
+            jScrollPane1.repaint();
+            StudentsTable.revalidate();
+            StudentsTable.repaint();
+            this.revalidate();
+            this.repaint();
+        } else {
+            JOptionPane.showMessageDialog(this, "Student NOT FOUND\nIncorrect ID or Name", "NOT FOUND", JOptionPane.INFORMATION_MESSAGE);
+            jScrollPane1.setVisible(false);
+            return;
+        }
+
+    }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -78,5 +217,11 @@ public class BrowseFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton EnrollBtn;
+    private javax.swing.JTextField SearchBar;
+    private javax.swing.JButton SearchBtn;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

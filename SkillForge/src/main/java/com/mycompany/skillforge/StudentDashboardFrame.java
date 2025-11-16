@@ -47,6 +47,7 @@ public class StudentDashboardFrame extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         UnenrollBtn = new javax.swing.JButton();
         EnrollBtn = new javax.swing.JButton();
+        BrowseBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -88,6 +89,13 @@ public class StudentDashboardFrame extends javax.swing.JFrame {
             }
         });
 
+        BrowseBtn.setText("Browse");
+        BrowseBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BrowseBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -107,14 +115,16 @@ public class StudentDashboardFrame extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(UnenrollBtn))
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
+                        .addGap(60, 60, 60)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(EnrollBtn))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(EnrollBtn)
+                                    .addComponent(BrowseBtn)))
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(86, 86, 86))))
+                        .addGap(58, 58, 58))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -126,7 +136,10 @@ public class StudentDashboardFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(EnrollBtn)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(EnrollBtn)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(BrowseBtn))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -172,6 +185,10 @@ public class StudentDashboardFrame extends javax.swing.JFrame {
           }
     }//GEN-LAST:event_EnrollBtnActionPerformed
 
+    private void BrowseBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BrowseBtnActionPerformed
+        
+    }//GEN-LAST:event_BrowseBtnActionPerformed
+
     @SuppressWarnings("unchecked")
     private void LoadEnrolledCoursesTolist() {
         @SuppressWarnings("rawtypes")
@@ -185,10 +202,12 @@ public class StudentDashboardFrame extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     private void LoadAvailableCoursesToList() {
         @SuppressWarnings("rawtypes")
-        DefaultListModel model = (DefaultListModel) EnrolledCoursesList.getModel();
+        DefaultListModel model = (DefaultListModel) AvailableCoursesList.getModel();
         model.clear();
         for (Course course : availableCourses) {
+            if(course.isStudentEnrolled(Student)==false){
             model.addElement(course.getTitle());
+        }
         }
     }
 
@@ -226,6 +245,7 @@ public class StudentDashboardFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList<String> AvailableCoursesList;
+    private javax.swing.JButton BrowseBtn;
     private javax.swing.JButton EnrollBtn;
     private javax.swing.JList<String> EnrolledCoursesList;
     private javax.swing.JButton UnenrollBtn;

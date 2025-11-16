@@ -147,8 +147,11 @@ public class Login extends javax.swing.JFrame {
         String result = Manager.login(userInput, password, selectedRole);
 
         if (!result.equalsIgnoreCase("Login successful ")) {
-            JOptionPane.showMessageDialog(this, result, "Login Failed", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Login Failed", "Error", JOptionPane.ERROR_MESSAGE);
             return;
+        }
+        else {
+            JOptionPane.showMessageDialog(this, result , "Success", JOptionPane.INFORMATION_MESSAGE);
         }
 
         User user = Manager.getCurrentUser();

@@ -18,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Insructor extends javax.swing.JFrame {
     Instructor instructor = (Instructor)Manager.getCurrentUser();
-    List<Course> createdCourses = instructor.getCreatedCourses();
+    List<Course> createdCourses = instructor.getCreatedCourseObjects();
     JsonDatabaseManager dbManager = new JsonDatabaseManager();
     public Insructor() {
         initComponents();

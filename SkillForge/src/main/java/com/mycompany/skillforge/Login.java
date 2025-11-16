@@ -127,8 +127,7 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_userFieldActionPerformed
 
-    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        // TODO add your handling code here:
+    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
@@ -163,9 +162,9 @@ public class Login extends javax.swing.JFrame {
         this.dispose();
 
         if (user.getRole().equalsIgnoreCase("student")) {
-            StudentDashboardFrame().setVisible(true);
+           new  StudentDashboardFrame().setVisible(true);
         } else {
-            InstructorDashboardFrame().setVisible(true);
+            new Insructor().setVisible(true);
         }
     }
     //GEN-LAST:event_instructorRadioActionPerformed

@@ -10,11 +10,13 @@ package com.mycompany.skillforge;
  */
 public class AddLesson extends javax.swing.JFrame {
 
+    private Course course;
     /**
      * Creates new form AddLesson
      */
     public AddLesson(Course course) {
         initComponents();
+        this.course = course;
     }
 
     /**
@@ -101,8 +103,10 @@ public class AddLesson extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
+        String lessonTitle = jTextField1.getText();
+        String lessonContent = jTextField2.getText();
+        course.createLesson(lessonTitle, lessonContent);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void GoBackBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoBackBtnActionPerformed

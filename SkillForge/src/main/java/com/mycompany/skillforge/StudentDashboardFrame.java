@@ -18,8 +18,7 @@ import javax.xml.crypto.Data;
  */
 public class StudentDashboardFrame extends javax.swing.JFrame {
     Student Student = new Student();
-    Database DB = new Database();
-    List<Course> availableCourses = DB.getAllCourses();
+    List<Course> availableCourses = new JsonDatabaseManager().getAllCourses();
     List<Course> enrolledCourses = Student.getEnrolledCourses();
 
     public StudentDashboardFrame() {

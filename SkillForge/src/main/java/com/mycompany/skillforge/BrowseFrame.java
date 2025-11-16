@@ -18,14 +18,14 @@ import javax.swing.table.DefaultTableModel;
 public class BrowseFrame extends javax.swing.JFrame {
 
      Student Student = new Student();
-    Database DB = new Database();
-    List<Course> availableCourses = DB.getAllCourses();
+    List<Course> availableCourses = new JsonDatabaseManager().getAllCourses();
     
 
     public BrowseFrame() {
         initComponents();
         jTable1.setVisible(false);
         EnrollBtn.setVisible(false);
+      
     }
 
     /**
@@ -87,6 +87,11 @@ public class BrowseFrame extends javax.swing.JFrame {
         });
 
         SearchBtn.setText("Search");
+        SearchBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SearchBtnActionPerformed(evt);
+            }
+        });
 
         EnrollBtn.setText("Enroll");
         EnrollBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -138,46 +143,73 @@ public class BrowseFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void SearchBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchBarActionPerformed
-        // TODO add your handling code here:
+     
     }//GEN-LAST:event_SearchBarActionPerformed
 
     private void EnrollBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnrollBtnActionPerformed
-        // TODO add your handling code here:
+        int selectedRow = jTable1.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a course to enroll.", "Selection Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        String courseTitle = (String) jTable1.getValueAt(selectedRow, 0);
+        Course selectedCourse = null;
+        for (Course course : availableCourses) {
+            if (course.getTitle().equals(courseTitle)) {
+                selectedCourse = course;
+                break;
+            }
+        }
+        if (selectedCourse == null) {
+            JOptionPane.showMessageDialog(this, "Selected course not found.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        Student.getEnrolledCourses().add(selectedCourse);
+        JOptionPane.showMessageDialog(this, "Successfully enrolled in " + selectedCourse.getTitle() + "!", "Enrollment Successful", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_EnrollBtnActionPerformed
+
+    private void SearchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchBtnActionPerformed
+         String searchText = SearchBar.getText().trim();
+        if(searchText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a search term.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        loadAvaiablecoursesToTable(searchText);
+        EnrollBtn.setVisible(true);
+    }//GEN-LAST:event_SearchBtnActionPerformed
 
        private void loadAvaiablecoursesToTable(String searchText) {
         DefaultTableModel model = (DefaultTableModel)  jTable1.getModel();
         model.setRowCount(0);
         boolean flag = false;
         if ( availableCourses.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Students File is Empty", "ERROR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Course File is Empty", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         for (Course course : availableCourses ) {
-              String stuStr = student.lineRepresentation();
-            String[] splitstuStr =  stuStr.split(",");
-            if ( splitstuStr[0].toLowerCase().contains(searchText.toLowerCase()) ||  splitstuStr[1].toLowerCase().contains(searchText.toLowerCase()) ) {
+            if ( course.getTitle().toLowerCase().contains(searchText.toLowerCase()) ||
+                 course.getDescription().toLowerCase().contains(searchText.toLowerCase()) ) {
+                Object[] row = {
+                    course.getTitle(),
+                    course.getDescription(),
+                    course.getInstructorId(),
+                    course.getLessons().size()
+                };
+                model.addRow(row);
                 flag = true;
-                int studentId = student.getStudent_ID();
-                String fullName = student.getFull_Name();
-                int age = student.getAge();
-                String gender = student.getGender();
-                String department = student.getDepartment();
-                float gpa = student.getGPA();
-                model.addRow(new Object[]{studentId, fullName, age, gender, department, gpa});
-            }
         }
+    }
         if (flag) {
             jScrollPane1.setVisible(true);
             jScrollPane1.revalidate();
             jScrollPane1.repaint();
-            StudentsTable.revalidate();
-            StudentsTable.repaint();
+            jTable1.revalidate();
+            jTable1.repaint();
             this.revalidate();
             this.repaint();
         } else {
-            JOptionPane.showMessageDialog(this, "Student NOT FOUND\nIncorrect ID or Name", "NOT FOUND", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Course NOT Found", "NOT FOUND", JOptionPane.INFORMATION_MESSAGE);
             jScrollPane1.setVisible(false);
             return;
         }

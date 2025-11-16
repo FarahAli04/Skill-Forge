@@ -6,34 +6,40 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class Student extends User{
+public class Student extends User {
 private List<Course> EnrolledCourses;
-public Student(String userId,String username,String email,String passwordHash) {
-    super(userId,"Student",username, email, passwordHash);
+private List <Lesson> CompletedLessons;
+private final JsonDatabaseManager dbManager = new JsonDatabaseManager();
+public Student(String userId, String role, String username, String email, String passwordHash) {
+    super(userId, role, username, email, passwordHash);
     this.EnrolledCourses = new ArrayList<>();
+    this.CompletedLessons = new ArrayList<>();
 }
-public Student(String userId,String username,String email,String passwordHash,List<Course> EnrolledCourses ) {
-    super(userId,"Student",username, email, passwordHash);
-    this.EnrolledCourses = EnrolledCourses;
+public List<Lesson> getCompletedLessons() {
+    return CompletedLessons;
+}
+public void addEnrolledCourse(Course course) {
+    EnrolledCourses.add(course);
+
+}
+public void removeEnrolledCourse(Course course) {
+    EnrolledCourses.remove(course);
 }
 public List<Course> getEnrolledCourses() {
     return EnrolledCourses;
 }
 
+public void addCompletedLesson(Lesson lesson) {
+    CompletedLessons.add(lesson);
+    dbManager.updateStudent(this);
+}
+
 public static Student fromJsonObject(JSONObject jsonObject) {
-    //super.fromJsonObject(jsonObject);
     String userId = jsonObject.getString("userId");
     String role = jsonObject.getString("role");
     String username = jsonObject.getString("username");
     String email = jsonObject.getString("email");
     String passwordHash = jsonObject.getString("passwordHash");
-
-    /*student.setUserId(jsonObject.getString("userId"));
-    student.setRole(jsonObject.getString("role"));
-    student.setUsername(jsonObject.getString("username"));
-    student.setEmail(jsonObject.getString("email"));
-    student.setPasswordHash(jsonObject.getString("passwordHash"));*/
-
     List<Course> courses = new ArrayList<>();
     if ( jsonObject.has("EnrolledCourses") ) {
         JSONArray coursesArray = jsonObject.getJSONArray("EnrolledCourses");
@@ -43,17 +49,14 @@ public static Student fromJsonObject(JSONObject jsonObject) {
             courses.add(course);
         }
     }
-    return new Student(userId,username, email, passwordHash,courses);
+    Student student = new Student(userId, role, username, email, passwordHash);
+    student.EnrolledCourses = courses;
+    return student;
 }
 
+@Override
 public JSONObject toJsonObject() {
-    //JSONObject jsonObject = super.toJsonObject();
-    
-    /*jsonObject.put("userId", this.getUserId());
-    jsonObject.put("role", this.getRole());
-    jsonObject.put("username", this.getUsername());
-    jsonObject.put("email", this.getEmail());
-    jsonObject.put("passwordHash", this.getPasswordHash());*/
+    JSONObject jsonObject = super.toJsonObject();
     JSONArray coursesArray = new JSONArray();
     for (Course course : this.EnrolledCourses) {
         coursesArray.put(course.toJsonObject());

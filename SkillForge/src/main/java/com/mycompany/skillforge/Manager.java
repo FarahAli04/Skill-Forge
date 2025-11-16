@@ -30,9 +30,9 @@ public class Manager {
         User newUser;
 
         if (role.equalsIgnoreCase("student")) {
-            newUser = new Student(userId, username, email, hashed);
+            newUser = new Student(userId,"Student", username, email, hashed);
         } else {
-            newUser = new Instructor(userId, username, email, hashed);
+            newUser = new Instructor(userId, "Instructor", username, email, hashed);
         }
 
         users.add(newUser);
@@ -57,6 +57,10 @@ public class Manager {
     public static void logout() {
         loggedInUser = null;
     }
-
     
+    
+    public static User getCurrentUser() {
+        return loggedInUser;
+    }
+
 }

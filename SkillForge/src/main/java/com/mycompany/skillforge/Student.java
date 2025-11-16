@@ -6,11 +6,15 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class Student {
+public class Student extends User{
 private List<Course> EnrolledCourses;
-public Student() {
-    //super(userId, username, email, passwordHash);
+public Student(String userId,String username,String email,String passwordHash) {
+    super(userId,"Student",username, email, passwordHash);
     this.EnrolledCourses = new ArrayList<>();
+}
+public Student(String userId,String username,String email,String passwordHash,List<Course> EnrolledCourses ) {
+    super(userId,"Student",username, email, passwordHash);
+    this.EnrolledCourses = EnrolledCourses;
 }
 public List<Course> getEnrolledCourses() {
     return EnrolledCourses;
@@ -39,7 +43,7 @@ public static Student fromJsonObject(JSONObject jsonObject) {
             courses.add(course);
         }
     }
-    return new Student(userId, role, username, email, passwordHash, courses);
+    return new Student(userId,username, email, passwordHash,courses);
 }
 
 public JSONObject toJsonObject() {

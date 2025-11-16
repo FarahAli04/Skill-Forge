@@ -12,6 +12,7 @@ public class Lesson {
     private String content;
     private List<String> OpResources;
     private boolean isCompleted;
+    private String courseId;
 
     public Lesson() {
         this.OpResources = new ArrayList<>();
@@ -19,11 +20,12 @@ public class Lesson {
 
     }
 
-    public Lesson(String lessonId, String title, String content) {
+    public Lesson(String lessonId, String title, String content, String courseId) {
         this();
         this.lessonId = lessonId;
         this.title = title;
         this.content = content;
+        this.courseId = courseId;
     }
 
     public String getLessonId() {
@@ -64,7 +66,7 @@ public class Lesson {
     public void setCompleted(boolean isCompleted) {
         this.isCompleted = isCompleted;
     }
-    public void markAsCompleted() {
+    public void markAsCompleted(Student student) {
         this.isCompleted = true;
     }
 

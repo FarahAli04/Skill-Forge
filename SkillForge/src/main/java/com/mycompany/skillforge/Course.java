@@ -105,7 +105,7 @@ public void unenrollStudent(Student student) {
 }
 public void createLesson(String title, String content) {
     String lessonId = "L" + (lessons.size() + 1);
-    Lesson lesson = new Lesson(lessonId, title, content);
+    Lesson lesson = new Lesson(lessonId, title, content, this.courseId);
     lessons.add(lesson);
     dbManager.updateCourse(this);
 }

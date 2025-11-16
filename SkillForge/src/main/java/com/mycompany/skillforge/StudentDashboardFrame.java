@@ -17,7 +17,7 @@ import javax.xml.crypto.Data;
  * @author Farah
  */
 public class StudentDashboardFrame extends javax.swing.JFrame {
-    Student Student = new Student();
+    Student Student = (Student) getCurrentUser();
     List<Course> availableCourses = new JsonDatabaseManager().getAllCourses();
     List<Course> enrolledCourses = Student.getEnrolledCourses();
 
@@ -25,6 +25,7 @@ public class StudentDashboardFrame extends javax.swing.JFrame {
         initComponents();
         LoadEnrolledCoursesTolist();
         LoadAvailableCoursesToList();
+        LessonList.setVisible(false);
     }
 
     /**
@@ -47,6 +48,11 @@ public class StudentDashboardFrame extends javax.swing.JFrame {
         UnenrollBtn = new javax.swing.JButton();
         EnrollBtn = new javax.swing.JButton();
         BrowseBtn = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        LessonList = new javax.swing.JList<>();
+        ViewLessonsBtn = new javax.swing.JButton();
+        CompleteBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -95,6 +101,30 @@ public class StudentDashboardFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel5.setText("Lessons");
+
+        LessonList.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        LessonList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane3.setViewportView(LessonList);
+
+        ViewLessonsBtn.setText("View Lessons");
+        ViewLessonsBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ViewLessonsBtnActionPerformed(evt);
+            }
+        });
+
+        CompleteBtn.setText("Completed");
+        CompleteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CompleteBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -108,11 +138,14 @@ public class StudentDashboardFrame extends javax.swing.JFrame {
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(UnenrollBtn))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(UnenrollBtn)
+                                    .addComponent(ViewLessonsBtn)))
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(60, 60, 60)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -123,7 +156,15 @@ public class StudentDashboardFrame extends javax.swing.JFrame {
                                     .addComponent(EnrollBtn)
                                     .addComponent(BrowseBtn)))
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(58, 58, 58))))
+                        .addGap(58, 58, 58))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(CompleteBtn)))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -148,8 +189,17 @@ public class StudentDashboardFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(UnenrollBtn))))
-                .addContainerGap(139, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(UnenrollBtn)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(ViewLessonsBtn)))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(CompleteBtn))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
         pack();
@@ -160,7 +210,6 @@ public class StudentDashboardFrame extends javax.swing.JFrame {
         if (selected != -1) {
             Course courseToUnenroll = enrolledCourses.get(selected);
             courseToUnenroll.unenrollStudent(Student);
-            enrolledCourses.remove(selected);
             LoadEnrolledCoursesTolist();
         }
         else
@@ -175,7 +224,6 @@ public class StudentDashboardFrame extends javax.swing.JFrame {
           if (selected != -1) {
                 Course courseToEnroll = availableCourses.get(selected);
                 courseToEnroll.enrollStudent(Student);
-                enrolledCourses.add(courseToEnroll);
                 LoadEnrolledCoursesTolist();
           }
           else
@@ -185,8 +233,45 @@ public class StudentDashboardFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_EnrollBtnActionPerformed
 
     private void BrowseBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BrowseBtnActionPerformed
-        
+        BrowseFrame browseFrame = new BrowseFrame();
+        browseFrame.setVisible(true);
     }//GEN-LAST:event_BrowseBtnActionPerformed
+
+    private void CompleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CompleteBtnActionPerformed
+        int selected  = LessonList.getSelectedIndex();
+        if(selected != -1)
+        {
+        Lesson selectedLesson = Student.getEnrolledCourses().get(EnrolledCoursesList.getSelectedIndex()).getLessons().get(selected);
+        selectedLesson.markAsCompleted(Student);
+        }
+       
+    }
+    //GEN-LAST:event_CompleteBtnActionPerformed
+
+    private void ViewLessonsBtnActionPerformed(java.awt.event.ActionEvent evt) {
+ 
+    LessonList.setVisible(true);
+    int selected = EnrolledCoursesList.getSelectedIndex();
+    if (selected != -1) {
+        Course selectedCourse = Student.getEnrolledCourses().get(selected);
+        List<Lesson> lessons = selectedCourse.getLessons();
+        DefaultListModel<String> model = new DefaultListModel<>();
+        
+        for (Lesson lesson : lessons) {
+            // Show completion status
+            String status = lesson.isCompleted() ? "✓ " : "○ ";
+            model.addElement(status + lesson.getTitle());
+        }
+        
+        LessonList.setModel(model);
+        LessonList.setVisible(true);
+        CompleteBtn.setVisible(true);
+    } else {
+        JOptionPane.showMessageDialog(this, "Please select a course to view lessons.");
+    }
+}
+       
+                                                
 
     @SuppressWarnings("unchecked")
     private void LoadEnrolledCoursesTolist() {
@@ -245,14 +330,19 @@ public class StudentDashboardFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList<String> AvailableCoursesList;
     private javax.swing.JButton BrowseBtn;
+    private javax.swing.JButton CompleteBtn;
     private javax.swing.JButton EnrollBtn;
     private javax.swing.JList<String> EnrolledCoursesList;
+    private javax.swing.JList<String> LessonList;
     private javax.swing.JButton UnenrollBtn;
+    private javax.swing.JButton ViewLessonsBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     // End of variables declaration//GEN-END:variables
 }

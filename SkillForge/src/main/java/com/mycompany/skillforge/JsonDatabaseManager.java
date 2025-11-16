@@ -142,7 +142,7 @@ public class JsonDatabaseManager {
                 break;
             }
         }
-        
+
         saveAllCourses(courses);
     }
     
@@ -157,19 +157,6 @@ public class JsonDatabaseManager {
         saveAllCourses(courses);
         saveAllStudents(students);
     }
-
-    /*public void deleteInstructor(String userId) {
-        List<Instructor> instructors = getAllInstructors();
-        List<Course> courses = getAllCourses();
-        instructors.removeIf(i -> i.getUserId().equals(userId));
-        for (Course course : courses) {
-            if (course.getInstructorId() == Integer.parseInt(userId)) {
-                course.setInstructorId("Instructor Removed");
-            }
-        }
-        saveAllCourses(courses);
-        saveAllInstructors(instructors);
-    }*/
 
     public void deleteCourse(String courseId) {
         List<Course> courses = getAllCourses();

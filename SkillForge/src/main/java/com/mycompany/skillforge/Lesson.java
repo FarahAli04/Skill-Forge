@@ -11,19 +11,18 @@ public class Lesson {
     private String title;
     private String content;
     private List<String> OpResources;
-    private boolean isCompleted;
+    private String courseId;
 
     public Lesson() {
         this.OpResources = new ArrayList<>();
-        this.isCompleted = false;
-
     }
 
-    public Lesson(String lessonId, String title, String content) {
+    public Lesson(String lessonId, String title, String content, String courseId) {
         this();
         this.lessonId = lessonId;
         this.title = title;
         this.content = content;
+        this.courseId = courseId;
     }
 
     public String getLessonId() {
@@ -49,23 +48,23 @@ public class Lesson {
     public void setContent(String content) {
         this.content = content;
     }
+    public String getCourseId() {
+        return courseId;
+    }
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
 
     public List<String> getResources() {
         return OpResources;
     }
 
-    public void addResource(String resource) {
-        this.OpResources.add(resource);
+    public void setResource(List<String> resource) {
+        this.OpResources = resource;
     }
 
-    public boolean isCompleted() {
-        return isCompleted;
-    }
-    public void setCompleted(boolean isCompleted) {
-        this.isCompleted = isCompleted;
-    }
-    public void markAsCompleted() {
-        this.isCompleted = true;
+    public void markAsCompleted( Student student) {
+        student.addCompletedLesson(this);
     }
 
     public JSONObject toJsonObject() {
@@ -74,7 +73,6 @@ public class Lesson {
         jsonObject.put("title", this.title);
         jsonObject.put("content", this.content);
         jsonObject.put("OpResources", this.OpResources);
-        jsonObject.put("isCompleted", this.isCompleted);
         return jsonObject;
     }
 
@@ -90,9 +88,8 @@ public class Lesson {
             }
         }
         lesson.OpResources = resources;
-        lesson.setCompleted(jsonObject.getBoolean("isCompleted"));
         return lesson;
     }
 
-    
+
 }

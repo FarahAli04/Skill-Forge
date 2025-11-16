@@ -1,6 +1,12 @@
 package com.mycompany.skillforge;
 
-public abstract class User {
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+public abstract  class User {
     protected String userId;
     protected String role;
     protected String username;
@@ -35,6 +41,17 @@ public abstract class User {
     public String getPasswordHash() {
         return passwordHash;
     }
-    
-    
+
+
+    public JSONObject toJsonObject() {
+    JSONObject jsonObject = new JSONObject();
+    jsonObject.put("userId", this.getUserId());
+    jsonObject.put("role", this.getRole());
+    jsonObject.put("username", this.getUsername());
+    jsonObject.put("email", this.getEmail());
+    jsonObject.put("passwordHash", this.getPasswordHash());
+    return jsonObject;
 }
+
+}
+

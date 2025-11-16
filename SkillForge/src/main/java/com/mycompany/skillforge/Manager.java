@@ -78,7 +78,7 @@ public class Manager {
             return "Database error!";
         }
     }
-
+    
     public static void logout() {
         loggedInUser = null;
     }

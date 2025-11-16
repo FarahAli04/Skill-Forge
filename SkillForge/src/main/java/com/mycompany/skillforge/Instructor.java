@@ -1,18 +1,28 @@
 package com.mycompany.skillforge;
 
 import java.util.ArrayList;
-
+import java.util.Random;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Instructor {
 private ArrayList<Course> CreatedCourses;
+private JsonDatabaseManager dbManager = new JsonDatabaseManager();
+private Random random = new Random();
 public Instructor() {
     //super(userId, username, email, passwordHash);
     this.CreatedCourses = new ArrayList<>();
 }
 public ArrayList<Course> getCreatedCourses() {
     return CreatedCourses;
+}
+
+public void createCourse( String title, String description) {
+    String courseId = "C" + String.format("%04d", random.nextInt(10000));
+    Course course = new Course(courseId, title, description, this.getUserId());
+    CreatedCourses.add(course);
+    dbManager.addCourse(course);
+    dbManager.updateInstructor(this);
 }
 
 

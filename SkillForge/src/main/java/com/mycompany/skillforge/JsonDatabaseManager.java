@@ -114,14 +114,19 @@ public class JsonDatabaseManager {
 
     public void updateStudent(Student updatedStudent) {
         List<Student> students = getAllStudents();
-
+        for (int i = 0; i < students.size(); i++) {
+            if (students.get(i).getUserId().equals(updatedStudent.getUserId())) {
+                students.set(i, updatedStudent);
+                break;
+            }
+        }
         saveAllStudents(students);
     }
 
     public void updateInstructor(Instructor updatedInstructor) {
         List<Instructor> instructors = getAllInstructors();
         for (int i = 0; i < instructors.size(); i++) {
-            if (instructors.get(i).getUserId() == updatedInstructor.getUserId()) {
+            if (instructors.get(i).getUserId().equals(updatedInstructor.getUserId())) {
                 instructors.set(i, updatedInstructor);
                 break;
             }
@@ -132,11 +137,55 @@ public class JsonDatabaseManager {
     public void updateCourse(Course updatedCourse) {
         List<Course> courses = getAllCourses();
         for (int i = 0; i < courses.size(); i++) {
-            if (courses.get(i).getCourseId() == updatedCourse.getCourseId()) {
+            if (courses.get(i).getCourseId().equals(updatedCourse.getCourseId())) {
                 courses.set(i, updatedCourse);
                 break;
             }
         }
+        
+        saveAllCourses(courses);
+    }
+    
+    public void deleteStudent(String userId) {
+        List<Student> students = getAllStudents();
+         students.removeIf(s -> s.getUserId().equals(userId));
+        List<Course> courses = getAllCourses();
+        for (Course course : courses) {
+            List<Student> enrolledStudents = course.getStudents();
+            enrolledStudents.removeIf(s -> s.getUserId().equals(userId));
+        }
+        saveAllCourses(courses);
+        saveAllStudents(students);
+    }
+
+    /*public void deleteInstructor(String userId) {
+        List<Instructor> instructors = getAllInstructors();
+        List<Course> courses = getAllCourses();
+        instructors.removeIf(i -> i.getUserId().equals(userId));
+        for (Course course : courses) {
+            if (course.getInstructorId() == Integer.parseInt(userId)) {
+                course.setInstructorId("Instructor Removed");
+            }
+        }
+        saveAllCourses(courses);
+        saveAllInstructors(instructors);
+    }*/
+
+    public void deleteCourse(String courseId) {
+        List<Course> courses = getAllCourses();
+        courses.removeIf(c -> c.getCourseId().equals(courseId));
+        List<Student> students = getAllStudents();
+        for (Student student : students) {
+            List<Course> enrolledCourses = student.getEnrolledCourses();
+            enrolledCourses.removeIf(c -> c.getCourseId().equals(courseId));
+        }
+        List<Instructor> instructors = getAllInstructors();
+        for (Instructor instructor : instructors) {
+            List<Course> createdCourses = instructor.getCreatedCourses();
+            createdCourses.removeIf(c -> c.getCourseId().equals(courseId));
+        }
+        saveAllStudents(students);
+        saveAllInstructors(instructors);
         saveAllCourses(courses);
     }
 

@@ -65,6 +65,22 @@ public class JsonDatabaseManager {
 
     }
 
+    public boolean userExists(String email) {
+        List<Student> students = getAllStudents();
+        List<Instructor> instructors = getAllInstructors();
+        for (Student s : students) {
+            if (s.getEmail().equalsIgnoreCase(email)) {
+                return true;
+            }
+        }
+        for (Instructor i : instructors) {
+            if (i.getEmail().equalsIgnoreCase(email)) {
+                return true;
+            }
+        }
+        return false;
+       
+    }
 
     public void addStudent(Student student) {
         List<Student> students = getAllStudents();

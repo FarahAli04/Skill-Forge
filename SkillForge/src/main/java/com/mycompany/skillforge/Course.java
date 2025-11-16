@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import org.json.JSONObject;
+
 public class Course {
 private String courseId;
 private String title;
@@ -99,4 +101,23 @@ public void DeleteCourse() {
   // delete from database 
     JOptionPane.showMessageDialog(null, "Course deleted successfully.");
 }
+
+public static Course fromJsonObject(JSONObject jsonObject) {
+    String courseId = jsonObject.getString("courseId");
+    String title = jsonObject.getString("title");
+    String description = jsonObject.getString("description");
+    int instructorId = jsonObject.getInt("instructorId");
+    return new Course(courseId, title, description, instructorId);
+
+}
+
+public JSONObject toJsonObject() {
+    JSONObject jsonObject = new JSONObject();
+    jsonObject.put("courseId", this.courseId);
+    jsonObject.put("title", this.title);
+    jsonObject.put("description", this.description);
+    jsonObject.put("instructorId", this.instructorId);
+    return jsonObject;
+}
+
 }

@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
-
 package com.mycompany.skillforge;
 
-/**
- *
- * @author Farah
- */
 public class SkillForge {
 
     public static void main(String[] args) {

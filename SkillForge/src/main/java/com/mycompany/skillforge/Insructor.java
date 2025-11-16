@@ -56,6 +56,7 @@ public class Insructor extends javax.swing.JFrame {
         LessonsTable = new javax.swing.JTable();
         SaveBtn = new javax.swing.JButton();
         CourseSaveBtn1 = new javax.swing.JButton();
+        LogOutBtn = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -71,10 +72,10 @@ public class Insructor extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        if(instructor != null) {
-        InstructorName.setText("Welcome, " + instructor.getUsername());
-        InstructorId.setText("ID: " + instructor.getUserId());
-        }
+
+        InstructorName.setText("e");
+
+        InstructorId.setText("jLabel7");
 
         jLabel1.setText("Created Courses");
 
@@ -195,6 +196,13 @@ public class Insructor extends javax.swing.JFrame {
             }
         });
 
+        LogOutBtn.setText("Log Out");
+        LogOutBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LogOutBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -206,34 +214,39 @@ public class Insructor extends javax.swing.JFrame {
                         .addGap(2, 2, 2)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(InstructorName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(InstructorId, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(LogOutBtn))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(InstructorName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(InstructorId, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(29, 29, 29))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(37, 37, 37)))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(AddLessonBtn)
-                                    .addComponent(EnrolledStudentBtn)
-                                    .addComponent(RemoveLessonBtn)
-                                    .addComponent(SaveBtn)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(13, 13, 13)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(CourseSaveBtn1)
-                                            .addComponent(ViewLessonsBtn))))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(RemoveCourseBtn)
-                            .addComponent(CreateNewCourseBtn))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(29, 29, 29))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(37, 37, 37)))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(AddLessonBtn)
+                                            .addComponent(EnrolledStudentBtn)
+                                            .addComponent(RemoveLessonBtn)
+                                            .addComponent(SaveBtn)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(13, 13, 13)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(CourseSaveBtn1)
+                                                    .addComponent(ViewLessonsBtn))))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(RemoveCourseBtn)
+                                    .addComponent(CreateNewCourseBtn))))
                         .addGap(61, 61, 61))))
         );
         layout.setVerticalGroup(
@@ -265,15 +278,18 @@ public class Insructor extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(38, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(51, 51, 51)
                         .addComponent(AddLessonBtn)
                         .addGap(27, 27, 27)
                         .addComponent(RemoveLessonBtn)
                         .addGap(31, 31, 31)
-                        .addComponent(SaveBtn)))
-                .addContainerGap(38, Short.MAX_VALUE))
+                        .addComponent(SaveBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(LogOutBtn)
+                        .addGap(60, 60, 60))))
         );
 
         pack();
@@ -288,7 +304,7 @@ private void  LoadCreatedCourses() {
             model.addRow(new Object[] { CourseId,CourseTitle, CourseDescription });
         }
     }
-    private void EnrolledStudentBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnrolledStudentBtnActionPerformed
+    private void EnrolledStudentBtnActionPerformed(java.awt.event.ActionEvent evt) {                                                   
         int selectedRow = CourseTable.getSelectedRow();
         if (selectedRow >= 0 && createdCourses != null) {
             Course selectedCourse = createdCourses.get(selectedRow);
@@ -406,6 +422,13 @@ private void  LoadCreatedCourses() {
         }
     }//GEN-LAST:event_CourseSaveBtn1ActionPerformed
 
+    private void LogOutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogOutBtnActionPerformed
+       this.dispose();
+       Login loginFrame = new Login();
+         loginFrame.setVisible(true);
+       
+    }//GEN-LAST:event_LogOutBtnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -450,6 +473,7 @@ private void  LoadCreatedCourses() {
     private javax.swing.JLabel InstructorId;
     private javax.swing.JLabel InstructorName;
     private javax.swing.JTable LessonsTable;
+    private javax.swing.JButton LogOutBtn;
     private javax.swing.JButton RemoveCourseBtn;
     private javax.swing.JButton RemoveLessonBtn;
     private javax.swing.JButton SaveBtn;

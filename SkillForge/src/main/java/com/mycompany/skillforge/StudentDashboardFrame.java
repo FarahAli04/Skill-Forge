@@ -54,12 +54,14 @@ public class StudentDashboardFrame extends javax.swing.JFrame {
         LessonList = new javax.swing.JList<>();
         ViewLessonsBtn = new javax.swing.JButton();
         CompleteBtn = new javax.swing.JButton();
+        LogOutBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        if(Student!=null){
-        jLabel1.setText("Welcome, " + Student.getUsername());
-        jLabel2.setText("ID: " + Student.getUserId());
-        }
+
+        jLabel1.setText("jLabel1");
+
+        jLabel2.setText("jLabel2");
+
         EnrolledCoursesList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
@@ -125,6 +127,13 @@ public class StudentDashboardFrame extends javax.swing.JFrame {
             }
         });
 
+        LogOutBtn.setText("Log out");
+        LogOutBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LogOutBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -149,13 +158,15 @@ public class StudentDashboardFrame extends javax.swing.JFrame {
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(60, 60, 60)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(EnrollBtn)
-                                    .addComponent(BrowseBtn)))
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(LogOutBtn)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(EnrollBtn)
+                                        .addComponent(BrowseBtn)))))
                         .addGap(58, 58, 58))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -198,7 +209,10 @@ public class StudentDashboardFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(CompleteBtn))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(CompleteBtn)
+                        .addGap(62, 62, 62)
+                        .addComponent(LogOutBtn)))
                 .addContainerGap(48, Short.MAX_VALUE))
         );
 
@@ -246,7 +260,13 @@ public class StudentDashboardFrame extends javax.swing.JFrame {
         }
        
     }
-    //GEN-LAST:event_CompleteBtnActionPerformed
+//GEN-LAST:event_CompleteBtnActionPerformed
+
+    private void LogOutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogOutBtnActionPerformed
+        this.dispose();
+       Login loginFrame = new Login();
+         loginFrame.setVisible(true);
+    }//GEN-LAST:event_LogOutBtnActionPerformed
 
     private void ViewLessonsBtnActionPerformed(java.awt.event.ActionEvent evt) {
  
@@ -334,6 +354,7 @@ public class StudentDashboardFrame extends javax.swing.JFrame {
     private javax.swing.JButton EnrollBtn;
     private javax.swing.JList<String> EnrolledCoursesList;
     private javax.swing.JList<String> LessonList;
+    private javax.swing.JButton LogOutBtn;
     private javax.swing.JButton UnenrollBtn;
     private javax.swing.JButton ViewLessonsBtn;
     private javax.swing.JLabel jLabel1;

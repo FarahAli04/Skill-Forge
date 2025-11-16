@@ -2,6 +2,7 @@ package com.mycompany.skillforge;
 
 
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.JOptionPane;
 
@@ -11,10 +12,11 @@ public class Course {
 private String courseId;
 private String title;
 private String description;
-private int instructorId;
+private String instructorId;
 private List<Lesson> lessons;
 private List<Student> Students;
-private JsonDatabaseManager dbManager = new JsonDatabaseManager();
+private final JsonDatabaseManager dbManager = new JsonDatabaseManager();
+private Random random = new Random();
 
 /*public Course(String courseId, String title, String description, int instructorId, List<Lesson> lessons, List<Student> Students) {
     this.courseId = courseId;
@@ -35,7 +37,7 @@ public Course(String courseId, String title, String description, int instructorI
 }*/
 // because we will create lessons and enroll students later
 
-public Course(String courseId, String title, String description, int instructorId) {
+public Course(String courseId, String title, String description, String instructorId) {
     this.courseId = courseId;
     this.title = title;
     this.description = description;
@@ -61,10 +63,10 @@ public String getDescription() {
 public void setDescription(String description) {
     this.description = description;
 }
-public int getInstructorId() {
+public String getInstructorId() {
     return instructorId;
 }
-public void setInstructorId(int instructorId) {
+public void setInstructorId(String instructorId) {
     this.instructorId = instructorId;
 }
 public List<Lesson> getLessons() {
@@ -82,27 +84,23 @@ public void setStudents(List<Student> Students) {
 // Methods to manage students
 // adding and removing students from the course
 
-public void addStudent(Student student) {
-    Students.add(student);
-    dbManager.updateCourse(this);
-    dbManager.updateStudent(student);
-}
-public void removeStudent(Student student) {
-    Students.remove(student);
-    dbManager.updateCourse(this);
-    dbManager.updateStudent(student);
-}
 public void enrollStudent(Student student) {
-    addStudent(student);
+    Students.add(student);
+    student.addEnrolledCourse(this);
+    dbManager.updateStudent(student);
+    dbManager.updateCourse(this);
     JOptionPane.showMessageDialog(null, "Student enrolled successfully.");
 }
 public void unenrollStudent(Student student) {
-    removeStudent(student);
+    Students.remove(student);
+    student.removeEnrolledCourse(this);
+    dbManager.updateStudent(student);
+    dbManager.updateCourse(this);
     JOptionPane.showMessageDialog(null, "Student unenrolled successfully.");
 }
 public void createLesson(String title, String content) {
-    String lessonId = "L" + (lessons.size() + 1);
-    Lesson lesson = new Lesson(lessonId, title, content);
+    String lessonId = "L" + String.format("%04d", random.nextInt(10000));
+    Lesson lesson = new Lesson(lessonId, title, content , this.courseId);
     lessons.add(lesson);
     dbManager.updateCourse(this);
 }
@@ -119,12 +117,6 @@ public void updateLesson(Lesson lesson) {
     }
     dbManager.updateCourse(this);
 }
-// Instructor can delete the course
-
-/*private void dbManagerupdateCourse(Course course) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'dbManagerupdateCourse'");
-}*/ // what is this for?
 
 public void DeleteCourse() {
     dbManager.deleteCourse(this.courseId);
@@ -135,7 +127,7 @@ public static Course fromJsonObject(JSONObject jsonObject) {
     String courseId = jsonObject.getString("courseId");
     String title = jsonObject.getString("title");
     String description = jsonObject.getString("description");
-    int instructorId = jsonObject.getInt("instructorId");
+    String instructorId = jsonObject.getString("instructorId");
     return new Course(courseId, title, description, instructorId);
 
 }
@@ -149,5 +141,4 @@ public JSONObject toJsonObject() {
     return jsonObject;
 }
 
-}
 }

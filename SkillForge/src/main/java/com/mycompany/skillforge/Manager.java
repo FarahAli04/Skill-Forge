@@ -53,7 +53,7 @@ public class Manager {
 
         return "Invalid email or password or role";
     }
-
+    
     public static void logout() {
         loggedInUser = null;
     }

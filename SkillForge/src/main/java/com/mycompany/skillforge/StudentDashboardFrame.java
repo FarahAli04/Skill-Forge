@@ -19,7 +19,7 @@ import javax.xml.crypto.Data;
 public class StudentDashboardFrame extends javax.swing.JFrame {
     Student Student = (Student) Manager.getCurrentUser();
     List<Course> availableCourses = new JsonDatabaseManager().getAllCourses();
-    List<Course> enrolledCourses = Student.getEnrolledCourses();
+    List<Course> enrolledCourses = Student.getEnrolledCourseObjects();
     List<Lesson> CompletedLessons= Student.getCompletedLessons();
 
     public StudentDashboardFrame() {
@@ -242,7 +242,7 @@ public class StudentDashboardFrame extends javax.swing.JFrame {
         int selected  = LessonList.getSelectedIndex();
         if(selected != -1)
         {
-        Lesson selectedLesson = Student.getEnrolledCourses().get(EnrolledCoursesList.getSelectedIndex()).getLessons().get(selected);
+        Lesson selectedLesson = Student.getEnrolledCourseObjects().get(EnrolledCoursesList.getSelectedIndex()).getLessons().get(selected);
         selectedLesson.markAsCompleted(Student);
         }
        
@@ -254,7 +254,7 @@ public class StudentDashboardFrame extends javax.swing.JFrame {
     LessonList.setVisible(true);
     int selected = EnrolledCoursesList.getSelectedIndex();
     if (selected != -1) {
-        Course selectedCourse = Student.getEnrolledCourses().get(selected);
+        Course selectedCourse = Student.getEnrolledCourseObjects().get(selected);
         List<Lesson> lessons = selectedCourse.getLessons();
         DefaultListModel<String> model = new DefaultListModel<>();
         

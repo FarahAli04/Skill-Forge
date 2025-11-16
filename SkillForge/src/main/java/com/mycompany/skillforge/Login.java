@@ -1,7 +1,9 @@
-
 package com.mycompany.skillforge;
 
 import javax.swing.JOptionPane;
+
+import com.mycompany.skillforge.Manager;
+import com.mycompany.skillforge.User;
 
 
 public class Login extends javax.swing.JFrame {
@@ -166,7 +168,7 @@ public class Login extends javax.swing.JFrame {
             InstructorDashboardFrame().setVisible(true);
         }
     }
-    }//GEN-LAST:event_instructorRadioActionPerformed
+    //GEN-LAST:event_instructorRadioActionPerformed
 
     public static void main(String args[]) {
 

@@ -17,9 +17,10 @@ import javax.xml.crypto.Data;
  * @author Farah
  */
 public class StudentDashboardFrame extends javax.swing.JFrame {
-    Student Student = (Student) getCurrentUser();
+    Student Student = (Student) Manager.getCurrentUser();
     List<Course> availableCourses = new JsonDatabaseManager().getAllCourses();
     List<Course> enrolledCourses = Student.getEnrolledCourses();
+    List<Lesson> CompletedLessons= Student.getCompletedLessons();
 
     public StudentDashboardFrame() {
         initComponents();
@@ -259,7 +260,7 @@ public class StudentDashboardFrame extends javax.swing.JFrame {
         
         for (Lesson lesson : lessons) {
             // Show completion status
-            String status = lesson.isCompleted() ? "✓ " : "○ ";
+            String status = CompletedLessons.contains(lesson) ? "✓ " : "○ ";
             model.addElement(status + lesson.getTitle());
         }
         

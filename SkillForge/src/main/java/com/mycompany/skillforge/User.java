@@ -6,7 +6,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public abstract  class User<T> {
+public abstract  class User {
     protected String userId;
     protected String role;
     protected String username;

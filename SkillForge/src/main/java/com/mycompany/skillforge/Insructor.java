@@ -4,18 +4,27 @@
  */
 package com.mycompany.skillforge;
 
+import java.util.List;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author User
  */
 public class Insructor extends javax.swing.JFrame {
-    Instructor instructor = (Instructor).getCurrentUser();
-    /**
-     * Creates new form Insructor
-     */
+    Instructor instructor = (Instructor)Manager.getCurrentUser();
+    List<Course> createdCourses = instructor.getCreatedCourses();
+    JsonDatabaseManager dbManager = new JsonDatabaseManager();
     public Insructor() {
         initComponents();
         LoadCreatedCourses();
+        LessonsTable.setVisible(false);
+        AddLessonBtn.setVisible(false);
+        RemoveLessonBtn.setVisible(false);
+        SaveBtn.setVisible(false);
     }
 
     /**
@@ -60,10 +69,10 @@ public class Insructor extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        InstructorName.setText("e");
-
-        InstructorId.setText("jLabel7");
+        if(instructor != null) {
+        InstructorName.setText("Welcome, " + instructor.getUsername());
+        InstructorId.setText("ID: " + instructor.getUserId());
+        }
 
         jLabel1.setText("Created Courses");
 
@@ -267,39 +276,127 @@ public class Insructor extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    private void LoadCreatedCourses() {
-        
+private void  LoadCreatedCourses() {
+        DefaultTableModel model = (DefaultTableModel) CourseTable.getModel();
+        model.setRowCount(0);
+        for (Course course : createdCourses) {
+            String CourseId = course.getCourseId();
+            String CourseTitle = course.getTitle();
+            String CourseDescription  = course.getDescription();
+            model.addRow(new Object[] { CourseId,CourseTitle, CourseDescription });
+        }
     }
     private void EnrolledStudentBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnrolledStudentBtnActionPerformed
-       
-    }//GEN-LAST:event_EnrolledStudentBtnActionPerformed
-
+        int selectedRow = CourseTable.getSelectedRow();
+        if (selectedRow >= 0 && createdCourses != null) {
+            Course selectedCourse = createdCourses.get(selectedRow);
+            ViewEnrolledStudents viewEnrolledStudentsFrame = new ViewEnrolledStudents(selectedCourse);
+            viewEnrolledStudentsFrame.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a course first.");
+        }
+    }
     private void CreateNewCourseBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateNewCourseBtnActionPerformed
-        // TODO add your handling code here:
+        CreateCourse createCourseFrame = new CreateCourse();
+        createCourseFrame.setVisible(true);
     }//GEN-LAST:event_CreateNewCourseBtnActionPerformed
 
     private void RemoveCourseBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveCourseBtnActionPerformed
-        // TODO add your handling code here:
+        int selectedRow = CourseTable.getSelectedRow();
+        if (selectedRow >= 0) {
+           Course courseToRemove = createdCourses.get(selectedRow);
+           courseToRemove.DeleteCourse();
+            LoadCreatedCourses();
+        }   
     }//GEN-LAST:event_RemoveCourseBtnActionPerformed
 
     private void ViewLessonsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewLessonsBtnActionPerformed
-        // TODO add your handling code here:
+        LessonsTable.setVisible(true);
+        AddLessonBtn.setVisible(true);
+        RemoveLessonBtn.setVisible(true);
+        SaveBtn.setVisible(true);
+        int selectedRow = CourseTable.getSelectedRow();
+        if (selectedRow >= 0) {
+           Course selectedCourse = createdCourses.get(selectedRow);
+           List<Lesson> lessons = selectedCourse.getLessons();
+           DefaultTableModel model = (DefaultTableModel) LessonsTable.getModel();
+           model.setRowCount(0);
+           for (Lesson lesson : lessons) {
+               String lessonId = lesson.getLessonId();
+               String lessonTitle = lesson.getTitle();
+               String lessonContent = lesson.getContent();
+               String optionalResources = lesson.getResources().toString();
+               model.addRow(new Object[] { lessonId, lessonTitle, lessonContent, optionalResources });
+           }
+        }
     }//GEN-LAST:event_ViewLessonsBtnActionPerformed
 
     private void AddLessonBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddLessonBtnActionPerformed
-        // TODO add your handling code here:
+        int selectedRow = CourseTable.getSelectedRow();
+        if (selectedRow >= 0) {
+            Course selectedCourse = createdCourses.get(selectedRow);
+            AddLesson addLessonFrame = new AddLesson(selectedCourse);
+            addLessonFrame.setVisible(true);
+        }
     }//GEN-LAST:event_AddLessonBtnActionPerformed
 
     private void RemoveLessonBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveLessonBtnActionPerformed
-        // TODO add your handling code here:
+        int selectedRow = LessonsTable.getSelectedRow();
+         if (selectedRow >= 0) {
+              int courseRow = CourseTable.getSelectedRow();
+              Course selectedCourse = createdCourses.get(courseRow);
+              List<Lesson> lessons = selectedCourse.getLessons();
+              Lesson lessonToRemove = lessons.get(selectedRow);
+              selectedCourse.removeLesson(lessonToRemove);
+              DefaultTableModel model = (DefaultTableModel) LessonsTable.getModel();
+              model.removeRow(selectedRow);
+            }
     }//GEN-LAST:event_RemoveLessonBtnActionPerformed
 
     private void SaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveBtnActionPerformed
-        // TODO add your handling code here:
+        int courseRow = CourseTable.getSelectedRow();
+        if (courseRow >= 0) {
+            Course selectedCourse = createdCourses.get(courseRow);
+            DefaultTableModel model = (DefaultTableModel) LessonsTable.getModel();
+            for (int i = 0; i < model.getRowCount(); i++) {
+                String lessonId = (String) model.getValueAt(i, 0);
+                String lessonTitle = (String) model.getValueAt(i, 1);
+                String lessonContent = (String) model.getValueAt(i, 2);
+                Lesson lessonToUpdate = null;
+                for (Lesson lesson : selectedCourse.getLessons()) {
+                    if (lesson.getLessonId().equals(lessonId)) {
+                        lessonToUpdate = lesson;
+                        break;
+                    }
+                }
+                if (lessonToUpdate != null) {
+                    lessonToUpdate.setTitle(lessonTitle);
+                    lessonToUpdate.setContent(lessonContent);
+                    selectedCourse.updateLesson(lessonToUpdate);
+                }
+            }
+        }
     }//GEN-LAST:event_SaveBtnActionPerformed
 
     private void CourseSaveBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CourseSaveBtn1ActionPerformed
-        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) CourseTable.getModel();
+        for (int i = 0; i < model.getRowCount(); i++) {
+            String courseId = (String) model.getValueAt(i, 0);
+            String courseTitle = (String) model.getValueAt(i, 1);
+            String courseDescription = (String) model.getValueAt(i, 2);
+            Course courseToUpdate = null;
+            for (Course course : createdCourses) {
+                if (course.getCourseId().equals(courseId)) {
+                    courseToUpdate = course;
+                    break;
+                }
+            }
+            if (courseToUpdate != null) {
+                courseToUpdate.setTitle(courseTitle);
+                courseToUpdate.setDescription(courseDescription);
+                dbManager.updateCourse(courseToUpdate);
+            }
+        }
     }//GEN-LAST:event_CourseSaveBtn1ActionPerformed
 
     /**

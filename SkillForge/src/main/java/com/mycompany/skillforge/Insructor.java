@@ -4,6 +4,8 @@
  */
 package com.mycompany.skillforge;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -362,6 +364,9 @@ private void  LoadCreatedCourses() {
                 String lessonId = (String) model.getValueAt(i, 0);
                 String lessonTitle = (String) model.getValueAt(i, 1);
                 String lessonContent = (String) model.getValueAt(i, 2);
+                String lessonOptionalResourses = (String) model.getValueAt(i, 3);
+                String[] resourcesArray = lessonOptionalResourses.split(", ");
+                List<String> resourcesList = resourcesArray != null ?Arrays.asList(resourcesArray) : new ArrayList<>();
                 Lesson lessonToUpdate = null;
                 for (Lesson lesson : selectedCourse.getLessons()) {
                     if (lesson.getLessonId().equals(lessonId)) {
@@ -372,6 +377,8 @@ private void  LoadCreatedCourses() {
                 if (lessonToUpdate != null) {
                     lessonToUpdate.setTitle(lessonTitle);
                     lessonToUpdate.setContent(lessonContent);
+                    lessonToUpdate.getResources().clear();
+                    lessonToUpdate.setResource(resourcesList);
                     selectedCourse.updateLesson(lessonToUpdate);
                 }
             }

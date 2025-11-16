@@ -1,8 +1,6 @@
 package com.mycompany.skillforge;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -20,13 +18,13 @@ public class Student extends User {
         this.progress = new ArrayList<>();
     }
 
-   public List <Progress> getProgress() {
+    public List<Progress> getProgress() {
         return progress;
     }
 
     public void addEnrolledCourse(String courseId) {
         EnrolledCourses.add(courseId);
-        progress.add( new Progress(courseId));
+        progress.add(new Progress(courseId));
 
     }
 
@@ -39,23 +37,60 @@ public class Student extends User {
     }
 
     public void addCompletedLesson(Lesson lesson) {
-        for ( Progress p : progress ) {
-            if (p.getCourseId().equals(lesson.getCourseId()))
-            {
-                for (String Lid : p.getLessonId())
-                {
-                    if ( Lid.equals(lesson.getLessonId()))
-                    return;
-                    else 
-                    {
+        for (Progress p : progress) {
+            if (p.getCourseId().equals(lesson.getCourseId())) {
+                for (String Lid : p.getLessonId()) {
+                    if (Lid.equals(lesson.getLessonId())) {
+                        return; 
+                    }else {
                         p.addLesson(Lid);
                     }
                 }
             }
         }
-            dbManager.updateStudent(this);
+        dbManager.updateStudent(this);
+    }
+
+    public List<Course> getEnrolledCourseObjects() {
+        List<Course> courses = new ArrayList<>();
+        List <Course> allCourses = dbManager.getAllCourses();
+        for (String courseId : EnrolledCourses) {
+            for (Course c : allCourses) {
+                if (c.getCourseId().equals(courseId)) {
+                    courses.add(c);
+                    break;
+                }
+            }
         }
-    
+        return courses;
+    }
+
+    public List<Lesson> getCompletedLessons() {
+        List<Lesson> completedLessons = new ArrayList<>();
+        List <Course> allCourses = dbManager.getAllCourses();
+        for (Progress p : progress) {
+            String courseId = p.getCourseId();
+            Course course = null;
+            for (Course c : allCourses) {
+                if (c.getCourseId().equals(courseId)) {
+                    course = c;
+                    break;
+                }
+            }
+            if (course != null) {
+                for (String lessonId : p.getLessonId()) {
+                    for (Lesson lesson : course.getLessons()) {
+                        if (lesson.getLessonId().equals(lessonId)) {
+                            completedLessons.add(lesson);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return completedLessons;
+    }
+
 
     public static Student fromJsonObject(JSONObject jsonObject) {
         String userId = jsonObject.getString("userId");

@@ -1,7 +1,9 @@
-
 package com.mycompany.skillforge;
 
 import javax.swing.JOptionPane;
+
+import com.mycompany.skillforge.Manager;
+import com.mycompany.skillforge.User;
 
 
 public class Login extends javax.swing.JFrame {
@@ -125,16 +127,8 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_userFieldActionPerformed
 
-    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_loginButtonActionPerformed
-
-    private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_passwordFieldActionPerformed
-
-    private void instructorRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_instructorRadioActionPerformed
-        String userInput = userField.getText().trim();
+    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {
+      String userInput = userField.getText().trim();
         String password = new String(passwordField.getPassword()).trim();
 
         String selectedRole = null;
@@ -161,12 +155,51 @@ public class Login extends javax.swing.JFrame {
         this.dispose();
 
         if (user.getRole().equalsIgnoreCase("student")) {
-            StudentDashboardFrame().setVisible(true);
+           new  StudentDashboardFrame().setVisible(true);
         } else {
-            InstructorDashboardFrame().setVisible(true);
+            new Insructor().setVisible(true);
         }
+
+    }//GEN-LAST:event_loginButtonActionPerformed
+
+    private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passwordFieldActionPerformed
+
+    private void instructorRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_instructorRadioActionPerformed
+       /*  String userInput = userField.getText().trim();
+        String password = new String(passwordField.getPassword()).trim();
+
+        String selectedRole = null;
+
+        if (studentRadio.isSelected()) {
+            selectedRole = "student";
+        } else if (instructorRadio.isSelected()) {
+            selectedRole = "instructor";
+        }
+
+        if (userInput.isEmpty() || password.isEmpty() || selectedRole == null) {
+            JOptionPane.showMessageDialog(this, "Please fill all fields and select a role.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String result = Manager.login(userInput, password, selectedRole);
+
+        if (!result.equalsIgnoreCase("Login successful ")) {
+            JOptionPane.showMessageDialog(this, result, "Login Failed", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        User user = Manager.getCurrentUser();
+        this.dispose();
+
+        if (user.getRole().equalsIgnoreCase("student")) {
+           new  StudentDashboardFrame().setVisible(true);
+        } else {
+            new Insructor().setVisible(true);
+        }*/
     }
-    }//GEN-LAST:event_instructorRadioActionPerformed
+    //GEN-LAST:event_instructorRadioActionPerformed
 
     public static void main(String args[]) {
 

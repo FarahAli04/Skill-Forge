@@ -19,7 +19,7 @@ import javax.xml.crypto.Data;
 public class StudentDashboardFrame extends javax.swing.JFrame {
     Student Student = (Student) Manager.getCurrentUser();
     List<Course> availableCourses = new JsonDatabaseManager().getAllCourses();
-    List<Course> enrolledCourses = Student.getEnrolledCourses();
+    List<Course> enrolledCourses = Student.getEnrolledCourseObjects();
     List<Lesson> CompletedLessons= Student.getCompletedLessons();
 
     public StudentDashboardFrame() {
@@ -56,11 +56,10 @@ public class StudentDashboardFrame extends javax.swing.JFrame {
         CompleteBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel1.setText("jLabel1");
-
-        jLabel2.setText("jLabel2");
-
+        if(Student!=null){
+        jLabel1.setText("Welcome, " + Student.getUsername());
+        jLabel2.setText("ID: " + Student.getUserId());
+        }
         EnrolledCoursesList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
@@ -242,7 +241,7 @@ public class StudentDashboardFrame extends javax.swing.JFrame {
         int selected  = LessonList.getSelectedIndex();
         if(selected != -1)
         {
-        Lesson selectedLesson = Student.getEnrolledCourses().get(EnrolledCoursesList.getSelectedIndex()).getLessons().get(selected);
+        Lesson selectedLesson = Student.getEnrolledCourseObjects().get(EnrolledCoursesList.getSelectedIndex()).getLessons().get(selected);
         selectedLesson.markAsCompleted(Student);
         }
        
@@ -254,7 +253,7 @@ public class StudentDashboardFrame extends javax.swing.JFrame {
     LessonList.setVisible(true);
     int selected = EnrolledCoursesList.getSelectedIndex();
     if (selected != -1) {
-        Course selectedCourse = Student.getEnrolledCourses().get(selected);
+        Course selectedCourse = Student.getEnrolledCourseObjects().get(selected);
         List<Lesson> lessons = selectedCourse.getLessons();
         DefaultListModel<String> model = new DefaultListModel<>();
         

@@ -180,13 +180,13 @@ public class JsonDatabaseManager {
         courses.removeIf(c -> c.getCourseId().equals(courseId));
         List<Student> students = getAllStudents();
         for (Student student : students) {
-            List<Course> enrolledCourses = student.getEnrolledCourses();
-            enrolledCourses.removeIf(c -> c.getCourseId().equals(courseId));
+            List<String> enrolledCourses = student.getEnrolledCourses();
+            enrolledCourses.removeIf(cId -> cId.equals(courseId));
         }
         List<Instructor> instructors = getAllInstructors();
         for (Instructor instructor : instructors) {
-            List<Course> createdCourses = instructor.getCreatedCourses();
-            createdCourses.removeIf(c -> c.getCourseId().equals(courseId));
+            List<String> createdCourses = instructor.getCreatedCourses();
+            createdCourses.removeIf(cId -> cId.equals(courseId));
         }
         saveAllStudents(students);
         saveAllInstructors(instructors);

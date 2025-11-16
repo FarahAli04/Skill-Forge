@@ -89,14 +89,14 @@ public boolean isStudentEnrolled(Student student) {
 }
 public void enrollStudent(Student student) {
     Students.add(student);
-    student.addEnrolledCourse(this);
+    student.addEnrolledCourse(this.courseId);
     dbManager.updateStudent(student);
     dbManager.updateCourse(this);
     JOptionPane.showMessageDialog(null, "Student enrolled successfully.");
 }
 public void unenrollStudent(Student student) {
     Students.remove(student);
-    student.removeEnrolledCourse(this);
+    student.removeEnrolledCourse(this.courseId);
     dbManager.updateStudent(student);
     dbManager.updateCourse(this);
     JOptionPane.showMessageDialog(null, "Student unenrolled successfully.");

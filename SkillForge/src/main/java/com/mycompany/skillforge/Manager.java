@@ -3,10 +3,12 @@ package com.mycompany.skillforge;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.JOptionPane;
+
 public class Manager {
 
     private static User loggedInUser = null;
-    private JsonDatabaseManager dbMaanager = new JsonDatabaseManager();
+    private  static JsonDatabaseManager dbManager = new JsonDatabaseManager();
 
     public static String signup(String username, String email, String password, String role) {
 
@@ -26,9 +28,9 @@ public class Manager {
             String userId = String.valueOf(1000 + rand.nextInt(9000));
             String hashed = Password.hashPassword(password);
 
-            User newUser;
+            
             if (role.equalsIgnoreCase("student")) {
-                newUser = new Student(userId, "Student", username, email, hashed);
+                Student newUser = new Student(userId, "Student", username, email, hashed);
                 try {
                     dbManager.addStudent(newUser);
                 } catch (IllegalArgumentException e) {
@@ -36,7 +38,7 @@ public class Manager {
                 }
                 return "Signup successful!";
             } else {
-                newUser = new Instructor(userId, "Instructor", username, email, hashed);
+                Instructor newUser = new Instructor(userId, "Instructor", username, email, hashed);
                 try {
                     dbManager.addInstructor(newUser);
                 } catch (IllegalArgumentException e) {

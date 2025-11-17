@@ -1,6 +1,5 @@
 package com.mycompany.skillforge;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.JOptionPane;
@@ -60,7 +59,7 @@ public class Manager {
                 for (Student s : dbManager.getAllStudents()) {
                     if ((s.getEmail().equalsIgnoreCase(userInput) || s.getUsername().equalsIgnoreCase(userInput))&& s.getPasswordHash().equals(hashed)) {
                         loggedInUser = s;
-                        return "Login successful ";
+                        return "Login successful";
                     }
                 }
             } else if (role.equalsIgnoreCase("instructor")) {
@@ -68,7 +67,7 @@ public class Manager {
                     if ((i.getEmail().equalsIgnoreCase(userInput) || i.getUsername().equalsIgnoreCase(userInput))
                             && i.getPasswordHash().equals(hashed)) {
                         loggedInUser = i;
-                        return "Login successful ";
+                        return "Login successful";
                     }
                 }
             }
@@ -85,7 +84,7 @@ public class Manager {
         loggedInUser = null;
     }
 
-    public static User getCurrentUser() {
+     public static User getCurrentUser() {
         return loggedInUser;
     }
 

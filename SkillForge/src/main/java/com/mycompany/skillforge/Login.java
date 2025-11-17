@@ -162,7 +162,7 @@ public class Login extends javax.swing.JFrame {
 
         String result = Manager.login(userInput, password, selectedRole);
 
-        if (!result.equalsIgnoreCase("Login successful ")) {
+        if (!result.equalsIgnoreCase("Login successful")) {
             JOptionPane.showMessageDialog(this, "Login Failed", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -186,7 +186,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_passwordFieldActionPerformed
 
     private void instructorRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_instructorRadioActionPerformed
-7482
+
     }
 //GEN-LAST:event_instructorRadioActionPerformed
 

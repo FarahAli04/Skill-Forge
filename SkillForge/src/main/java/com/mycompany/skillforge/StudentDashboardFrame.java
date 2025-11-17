@@ -71,9 +71,9 @@ public class StudentDashboardFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("jLabel1");
+        jLabel1.setText(Student.getUsername());
 
-        jLabel2.setText("jLabel2");
+        jLabel2.setText(Student.getUserId());
 
         EnrolledCoursesList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -306,24 +306,22 @@ public class StudentDashboardFrame extends javax.swing.JFrame {
        
                                                 
 
-@SuppressWarnings("unchecked")
 private void LoadEnrolledCoursesTolist() {
-    DefaultListModel<String> model = (DefaultListModel<String>) EnrolledCoursesList.getModel();
-    model.clear();
+    DefaultListModel<String> model = new DefaultListModel<>();
     for (Course course : enrolledCourses) {
         model.addElement(course.getTitle());
     }
+    EnrolledCoursesList.setModel(model); 
 }
 
-@SuppressWarnings("unchecked")
 private void LoadAvailableCoursesToList() {
-    DefaultListModel<String> model = (DefaultListModel<String>) AvailableCoursesList.getModel();
-    model.clear();
+    DefaultListModel<String> model = new DefaultListModel<>();
     for (Course course : availableCourses) {
         if(!course.isStudentEnrolled(Student)){
             model.addElement(course.getTitle());
         }
     }
+    AvailableCoursesList.setModel(model);
 }
 
     public static void main(String args[]) {

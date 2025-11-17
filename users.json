@@ -1,5 +1,15 @@
 {
-    "Instructors": [],
+    "Instructors": [{
+        "CreatedCourses": [
+            "C2514",
+            "C2674"
+        ],
+        "role": "Instructor",
+        "userId": "1287",
+        "email": "yasmin@gmail.com",
+        "passwordHash": "3b0bbbb98aa865230f2d6979835302ca0bfbe94463489b1f28e81145d1d505fa",
+        "username": "yasmin"
+    }],
     "Students": [{
         "Progress": [],
         "role": "Student",

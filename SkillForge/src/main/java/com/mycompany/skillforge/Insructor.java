@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -316,7 +315,9 @@ private void  LoadCreatedCourses() {
     }
     private void CreateNewCourseBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateNewCourseBtnActionPerformed
         CreateCourse createCourseFrame = new CreateCourse();
+    
         createCourseFrame.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_CreateNewCourseBtnActionPerformed
 
     private void RemoveCourseBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveCourseBtnActionPerformed
@@ -324,6 +325,7 @@ private void  LoadCreatedCourses() {
         if (selectedRow >= 0) {
            Course courseToRemove = createdCourses.get(selectedRow);
            courseToRemove.DeleteCourse();
+           createdCourses.remove(selectedRow);
             LoadCreatedCourses();
         }   
     }//GEN-LAST:event_RemoveCourseBtnActionPerformed
@@ -336,6 +338,11 @@ private void  LoadCreatedCourses() {
         int selectedRow = CourseTable.getSelectedRow();
         if (selectedRow >= 0) {
            Course selectedCourse = createdCourses.get(selectedRow);
+           if ( selectedCourse.getLessons().isEmpty()) {
+               JOptionPane.showMessageDialog(this, "No lessons available for this course.");
+               return;
+           }
+           else{
            List<Lesson> lessons = selectedCourse.getLessons();
            DefaultTableModel model = (DefaultTableModel) LessonsTable.getModel();
            model.setRowCount(0);
@@ -347,6 +354,7 @@ private void  LoadCreatedCourses() {
                model.addRow(new Object[] { lessonId, lessonTitle, lessonContent, optionalResources });
            }
         }
+        }
     }//GEN-LAST:event_ViewLessonsBtnActionPerformed
 
     private void AddLessonBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddLessonBtnActionPerformed
@@ -355,6 +363,7 @@ private void  LoadCreatedCourses() {
             Course selectedCourse = createdCourses.get(selectedRow);
             AddLesson addLessonFrame = new AddLesson(selectedCourse);
             addLessonFrame.setVisible(true);
+             this.setVisible(false);
         }
     }//GEN-LAST:event_AddLessonBtnActionPerformed
 

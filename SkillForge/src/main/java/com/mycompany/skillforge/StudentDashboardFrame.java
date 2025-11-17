@@ -10,25 +10,37 @@ import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import javax.xml.crypto.Data;
 
 /**
  *
  * @author Farah
  */
 public class StudentDashboardFrame extends javax.swing.JFrame {
-    Student Student = (Student) Manager.getCurrentUser();
-    List<Course> availableCourses = new JsonDatabaseManager().getAllCourses();
-    List<Course> enrolledCourses = Student.getEnrolledCourseObjects();
-    List<Lesson> CompletedLessons= Student.getCompletedLessons();
+    Student Student ;
+    List<Course> availableCourses;
+    List<Course> enrolledCourses ;
+    List<Lesson> CompletedLessons;
 
     public StudentDashboardFrame() {
+        Student = (Student) Manager.getCurrentUser();
+    availableCourses = new JsonDatabaseManager().getAllCourses();
+     enrolledCourses = Student.getEnrolledCourseObjects();
+    CompletedLessons= Student.getCompletedLessons();
         initComponents();
         LoadEnrolledCoursesTolist();
         LoadAvailableCoursesToList();
         LessonList.setVisible(false);
     }
 
+    private void initializeListModels() {
+    DefaultListModel<String> enrolledModel = new DefaultListModel<>();
+    DefaultListModel<String> availableModel = new DefaultListModel<>();
+    DefaultListModel<String> lessonModel = new DefaultListModel<>();
+    
+    EnrolledCoursesList.setModel(enrolledModel);
+    AvailableCoursesList.setModel(availableModel);
+    LessonList.setModel(lessonModel);
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -55,6 +67,7 @@ public class StudentDashboardFrame extends javax.swing.JFrame {
         ViewLessonsBtn = new javax.swing.JButton();
         CompleteBtn = new javax.swing.JButton();
         LogOutBtn = new javax.swing.JButton();
+        initializeListModels();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -293,27 +306,25 @@ public class StudentDashboardFrame extends javax.swing.JFrame {
        
                                                 
 
-    @SuppressWarnings("unchecked")
-    private void LoadEnrolledCoursesTolist() {
-        @SuppressWarnings("rawtypes")
-        DefaultListModel model = (DefaultListModel) EnrolledCoursesList.getModel();
-        model.clear();
-        for (Course course : enrolledCourses) {
-            model.addElement(course.getTitle());
-        }
+@SuppressWarnings("unchecked")
+private void LoadEnrolledCoursesTolist() {
+    DefaultListModel<String> model = (DefaultListModel<String>) EnrolledCoursesList.getModel();
+    model.clear();
+    for (Course course : enrolledCourses) {
+        model.addElement(course.getTitle());
     }
+}
 
-    @SuppressWarnings("unchecked")
-    private void LoadAvailableCoursesToList() {
-        @SuppressWarnings("rawtypes")
-        DefaultListModel model = (DefaultListModel) AvailableCoursesList.getModel();
-        model.clear();
-        for (Course course : availableCourses) {
-            if(course.isStudentEnrolled(Student)==false){
+@SuppressWarnings("unchecked")
+private void LoadAvailableCoursesToList() {
+    DefaultListModel<String> model = (DefaultListModel<String>) AvailableCoursesList.getModel();
+    model.clear();
+    for (Course course : availableCourses) {
+        if(!course.isStudentEnrolled(Student)){
             model.addElement(course.getTitle());
         }
-        }
     }
+}
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
